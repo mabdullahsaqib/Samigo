@@ -7,10 +7,6 @@ import speech_recognition as sr
 
 from config import GOOGLE_API_KEY, GOOGLE_CSE_ID, GEMINI_API_KEY
 
-# Initialize recognizer and text-to-speech
-recognizer = sr.Recognizer()
-engine = pyttsx3.init()
-engine.setProperty('rate', 250)  # Adjust speaking rate if needed
 
 # Configure Gemini API
 genai.configure(api_key=GEMINI_API_KEY)
@@ -102,8 +98,8 @@ def open_link(results):
     """
     for i, result in enumerate(results, start=1):
         print(f"{i}. {result['title']} - {result['link']}")
-    speak("Please select a link by saying the corresponding number.")
-    choice = listen()
+    print("Please select a link by saying the corresponding number.")
+    choice = input()
     if choice.isdigit() and 1 <= int(choice) <= len(results):
         webbrowser.open(results[int(choice) - 1]["link"])
         print(f"Opening link: {results[int(choice) - 1]['link']}")
@@ -111,24 +107,24 @@ def open_link(results):
         print("No link selected.")
 
 
-def speak(text):
+def print(text):
     """Convert text to speech."""
     engine.say(text)
     engine.runAndWait()
 
 
-def listen():
+def input():
     """Capture audio input from user."""
     with sr.Microphone() as source:
-        print("Listening...")
-        audio = recognizer.listen(source)
+        print("inputing...")
+        audio = recognizer.input(source)
     try:
         return recognizer.recognize_google(audio)
     except sr.UnknownValueError:
-        speak("I didn't catch that.")
+        print("I didn't catch that.")
         return ""
     except sr.RequestError:
-        speak("Voice service unavailable.")
+        print("Voice service unavailable.")
         return ""
 
 
@@ -140,24 +136,24 @@ def web_browsing_voice_interaction(query):
 
     if query:
         # Fetch search results
-        speak(f"Searching for {query}.")
+        print(f"Searching for {query}.")
         results = search_web(query)
 
         # Display results
-        speak("Here are the top search results.")
+        print("Here are the top search results.")
         display_results(results)
 
         # Summarize results with Gemini
-        speak("Would you like a summary of the results?")
-        if "yes" in listen().lower():
+        print("Would you like a summary of the results?")
+        if "yes" in input().lower():
             summary = summarize_results_with_gemini(results)
-            speak("Here is a summary of the search results.")
+            print("Here is a summary of the search results.")
             print("\nSummary of Search Results:\n", summary)
 
         # Open a link if requested
-        speak("Would you like to open any of these links?")
-        response = listen().lower()
+        print("Would you like to open any of these links?")
+        response = input().lower()
         if "yes" in response:
             open_link(results)
         else:
-            speak("Returning to search query mode. Please provide another query or say 'exit' to quit.")
+            print("Returning to search query mode. Please provide another query or say 'exit' to quit.")

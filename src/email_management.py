@@ -3,8 +3,7 @@ import os.path
 from email.mime.text import MIMEText
 
 import google.generativeai as genai  # Ensure Gemini API client is imported
-import pyttsx3
-import speech_recognition as sr
+
 from google.auth.transport.requests import Request
 from google.oauth2.credentials import Credentials
 from google_auth_oauthlib.flow import InstalledAppFlow
@@ -13,10 +12,6 @@ from googleapiclient.errors import HttpError
 
 from config import GEMINI_API_KEY, GMAIL_CREDENTIALS_PATH, GMAIL_TOKEN_PATH
 
-# Initialize recognizer and text-to-speech
-recognizer = sr.Recognizer()
-engine = pyttsx3.init()
-engine.setProperty('rate', 250)  # Adjust speaking rate if needed
 
 # Define the Gmail API scope
 SCOPES = ['https://www.googleapis.com/auth/gmail.readonly',
@@ -123,27 +118,9 @@ def send_email_with_generated_response(service, email_id):
         print(f"An error occurred: {error}")
 
 
-def speak(text):
-    engine.say(text)
-    engine.runAndWait()
 
 
-def listen():
-    with sr.Microphone() as source:
-        while True:
-            print("Listening...")
-            audio = recognizer.listen(source)
-            try:
-                command = recognizer.recognize_google(audio)
-                print("Command : " + command)
-                return command
-            except sr.WaitTimeoutError:
-                continue
-            except sr.UnknownValueError:
-                continue
-            except sr.RequestError:
-                speak("Voice service unavailable.")
-                return ""
+
 
 
 # Example usage
@@ -155,18 +132,18 @@ def email_voice_interaction(command):
         fetch_emails(service, 10)
     elif ("send" in command or "compose" in command or "write" in command) and (
             "email" in command or "mail" in command):
-        speak("Who is the recipient?")
-        to_email = listen()
-        speak("What is the subject?")
-        subject = listen()
-        speak("What should I say?")
-        message_text = listen()
+        print("Who is the recipient?")
+        to_email = input()
+        print("What is the subject?")
+        subject = input()
+        print("What should I say?")
+        message_text = input()
         send_email(service, to_email, subject, message_text)
     elif "summarize" in command and ("email" in command or "mail" in command):
-        speak("What is the email ID?")
-        email_id = listen()
+        print("What is the email ID?")
+        email_id = input()
         summarize_email(service, email_id)
     elif "reply" in command and ("email" in command or "mail" in command):
-        speak("What is the email ID?")
-        email_id = listen()
+        print("What is the email ID?")
+        email_id = input()
         send_email_with_generated_response(service, email_id)
