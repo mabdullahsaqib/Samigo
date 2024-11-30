@@ -18,7 +18,6 @@ from note_taking import note_voice_interaction
 from realtime_translation import translation_voice_interaction
 from email_management import email_voice_interaction
 from weather_and_news import weather_and_news_voice_interaction
-from personalized_recommendations import recommendations_voice_interaction
 
 
 # Initialize chat history
@@ -44,8 +43,6 @@ def activate_module(command):
         email_voice_interaction(command)
     elif "weather" in command or "news" in command or "headline" in command or "article" in command:
         weather_and_news_voice_interaction(command)
-    elif "recommendation" in command or "suggestion" in command or "advice" in command or "recommendations" in command or "recommend" in command:
-        recommendations_voice_interaction(command)
     else:
         print(response)
 
@@ -61,7 +58,7 @@ def main():
     print(random.choice(greetings))
 
     while True:
-        command = input()
+        command = input("Please say a command: ")
         if "exit" in command.lower():
             print(random.choice(goodbyes))
             break

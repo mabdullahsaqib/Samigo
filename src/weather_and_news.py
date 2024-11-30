@@ -1,6 +1,6 @@
-import pyttsx3
+
 import requests
-import speech_recognition as sr
+
 
 from config import WEATHER_API_KEY, WEATHER_API_HOST, NEWS_API_KEY
 

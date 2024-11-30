@@ -14,10 +14,7 @@ db = firestore.client()
 genai.configure(api_key=GEMINI_API_KEY)
 model = genai.GenerativeModel("gemini-1.5-flash")
 
-# Initialize recognizer and text-to-speech
-recognizer = sr.Recognizer()
-engine = pyttsx3.init()
-engine.setProperty('rate', 250)
+
 
 
 

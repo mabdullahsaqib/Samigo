@@ -1,9 +1,9 @@
 import webbrowser
 
 import google.generativeai as genai
-import pyttsx3
+
 import requests
-import speech_recognition as sr
+
 
 from config import GOOGLE_API_KEY, GOOGLE_CSE_ID, GEMINI_API_KEY
 
@@ -107,25 +107,7 @@ def open_link(results):
         print("No link selected.")
 
 
-def print(text):
-    """Convert text to speech."""
-    engine.say(text)
-    engine.runAndWait()
 
-
-def input():
-    """Capture audio input from user."""
-    with sr.Microphone() as source:
-        print("inputing...")
-        audio = recognizer.input(source)
-    try:
-        return recognizer.recognize_google(audio)
-    except sr.UnknownValueError:
-        print("I didn't catch that.")
-        return ""
-    except sr.RequestError:
-        print("Voice service unavailable.")
-        return ""
 
 
 def web_browsing_voice_interaction(query):
