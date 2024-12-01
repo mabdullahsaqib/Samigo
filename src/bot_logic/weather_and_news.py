@@ -2,7 +2,7 @@
 import requests
 
 
-from src.config import WEATHER_API_KEY, WEATHER_API_HOST, NEWS_API_KEY
+from .config import WEATHER_API_KEY, WEATHER_API_HOST, NEWS_API_KEY
 
 
 # Weather API setup

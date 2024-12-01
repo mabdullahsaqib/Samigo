@@ -1,17 +1,5 @@
-import random
-
-import firebase_admin
-
-from firebase_admin import credentials
-
-from src.config import FIREBASE_CREDENTIALS_PATH
-
-# Firebase initialization
-cred = credentials.Certificate(FIREBASE_CREDENTIALS_PATH)
-firebase_admin.initialize_app(cred)
-
 # Import all the modules as needed
-from .interaction_history import interaction_history, handle_user_command
+from .interaction_history import handle_user_command
 from .task_management import task_voice_interaction
 from .web_browsing import web_browsing_voice_interaction
 from .note_taking import note_voice_interaction
@@ -20,11 +8,7 @@ from .email_management import email_voice_interaction
 from .weather_and_news import weather_and_news_voice_interaction
 
 
-# Initialize chat history
-session_id, chat = interaction_history()
-
-
-def activate_module(command):
+def activate_module(session_id, command, chat):
     """
     Activate the appropriate module based on the user's command.
     """
@@ -45,25 +29,3 @@ def activate_module(command):
         weather_and_news_voice_interaction(command)
     else:
         print(response)
-
-
-def main():
-    """
-    Main function to handle voice commands and activate modules.
-    """
-    greetings = ["Hello, how can I assist you today?", "Hi, what can I do for you?", "Hey, how can I help you?",
-                 "Greetings, what can I do for you?", "Hello, how can I help you today?"]
-    goodbyes = ["See you later!", "Goodbye, have a great day!", "Goodbye, take care!", "Goodbye, see you soon!",
-                "Goodbye, have a nice day!"]
-    print(random.choice(greetings))
-
-    while True:
-        command = input("Please say a command: ")
-        if "exit" in command.lower():
-            print(random.choice(goodbyes))
-            break
-        activate_module(command.lower())
-
-
-if __name__ == "__main__":
-    main()

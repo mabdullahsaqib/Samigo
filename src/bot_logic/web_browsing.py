@@ -5,7 +5,7 @@ import google.generativeai as genai
 import requests
 
 
-from src.config import GOOGLE_API_KEY, GOOGLE_CSE_ID, GEMINI_API_KEY
+from .config import GOOGLE_API_KEY, GOOGLE_CSE_ID, GEMINI_API_KEY
 
 
 # Configure Gemini API

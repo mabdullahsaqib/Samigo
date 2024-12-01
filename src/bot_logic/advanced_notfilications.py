@@ -3,7 +3,7 @@ from datetime import datetime, timedelta
 from firebase_admin import firestore
 
 # Firebase initialization
-db = firestore.client()
+from .firebase_initializer import db
 
 
 

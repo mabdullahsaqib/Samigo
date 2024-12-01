@@ -4,11 +4,11 @@ import google.generativeai as genai
 
 from firebase_admin import firestore
 
-from src.config import GEMINI_API_KEY
+from .config import GEMINI_API_KEY
 
 
 # Initialize Firestore
-db = firestore.client()
+from .firebase_initializer import db
 
 # Initialize Gemini model
 genai.configure(api_key=GEMINI_API_KEY)
