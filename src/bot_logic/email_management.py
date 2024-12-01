@@ -10,7 +10,7 @@ from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 
-from config import GEMINI_API_KEY, GMAIL_CREDENTIALS_PATH, GMAIL_TOKEN_PATH
+from src.config import GEMINI_API_KEY, GMAIL_CREDENTIALS_PATH, GMAIL_TOKEN_PATH
 
 
 # Define the Gmail API scope
@@ -32,7 +32,7 @@ def authenticate_gmail():
         else:
             flow = InstalledAppFlow.from_client_secrets_file(GMAIL_CREDENTIALS_PATH, SCOPES)
             creds = flow.run_local_server(port=0)
-        with open('../token.json', 'w') as token:
+        with open('../../token.json', 'w') as token:
             token.write(creds.to_json())
     return creds
 

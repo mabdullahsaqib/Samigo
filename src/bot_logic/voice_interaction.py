@@ -4,20 +4,20 @@ import firebase_admin
 
 from firebase_admin import credentials
 
-from config import FIREBASE_CREDENTIALS_PATH
+from src.config import FIREBASE_CREDENTIALS_PATH
 
 # Firebase initialization
 cred = credentials.Certificate(FIREBASE_CREDENTIALS_PATH)
 firebase_admin.initialize_app(cred)
 
 # Import all the modules as needed
-from interaction_history import interaction_history, handle_user_command
-from task_management import task_voice_interaction
-from web_browsing import web_browsing_voice_interaction
-from note_taking import note_voice_interaction
-from realtime_translation import translation_voice_interaction
-from email_management import email_voice_interaction
-from weather_and_news import weather_and_news_voice_interaction
+from .interaction_history import interaction_history, handle_user_command
+from .task_management import task_voice_interaction
+from .web_browsing import web_browsing_voice_interaction
+from .note_taking import note_voice_interaction
+from .realtime_translation import translation_voice_interaction
+from .email_management import email_voice_interaction
+from .weather_and_news import weather_and_news_voice_interaction
 
 
 # Initialize chat history

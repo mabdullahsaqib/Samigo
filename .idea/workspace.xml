@@ -5,9 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="579bf43c-2a2d-4e5d-bf14-dac4706e0817" name="Changes" comment="gitignore">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/bot_logic/__init__.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/advanced_notfilications.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/bot_logic/advanced_notfilications.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/email_management.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/bot_logic/email_management.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/interaction_history.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/bot_logic/interaction_history.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/note_taking.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/bot_logic/note_taking.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/realtime_translation.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/bot_logic/realtime_translation.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/task_management.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/bot_logic/task_management.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/voice_interaction.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/bot_logic/voice_interaction.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/weather_and_news.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/bot_logic/weather_and_news.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/web_browsing.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/bot_logic/web_browsing.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -35,6 +43,7 @@
   </component>
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
+    &quot;Python.interaction_history.executor&quot;: &quot;Run&quot;,
     &quot;Python.main.executor&quot;: &quot;Run&quot;,
     &quot;Python.voice_interaction.executor&quot;: &quot;Run&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
@@ -49,6 +58,8 @@
 }</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Administrator\Documents\PyCharm\Samigo\src" />
+      <recent name="C:\Users\Administrator\Documents\PyCharm\Samigo\src\bot_logic" />
       <recent name="C:\Users\Administrator\Documents\PyCharm\Samigo" />
     </key>
   </component>
@@ -72,6 +83,9 @@
       <workItem from="1732561422719" duration="6000" />
       <workItem from="1732845074103" duration="5921000" />
       <workItem from="1732872706717" duration="1000" />
+      <workItem from="1732980893911" duration="3756000" />
+      <workItem from="1733033170002" duration="76000" />
+      <workItem from="1733038586296" duration="344000" />
     </task>
     <task id="LOCAL-00001" summary="init commit">
       <option name="closed" value="true" />
@@ -101,7 +115,8 @@
     <option name="LAST_COMMIT_MESSAGE" value="gitignore" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/Samigo$interaction_history.coverage" NAME="interaction_history Coverage Results" MODIFIED="1732981325188" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
     <SUITE FILE_PATH="coverage/Samigo$main.coverage" NAME="main Coverage Results" MODIFIED="1732845185282" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
-    <SUITE FILE_PATH="coverage/Samigo$voice_interaction.coverage" NAME="voice_interaction Coverage Results" MODIFIED="1732851587547" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
+    <SUITE FILE_PATH="coverage/Samigo$voice_interaction.coverage" NAME="voice_interaction Coverage Results" MODIFIED="1732983876820" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
   </component>
 </project>
