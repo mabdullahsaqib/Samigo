@@ -302,7 +302,7 @@ def execute_command():
         try:
             parsed_command = json.loads(parsed_command_text)
         except json.JSONDecodeError as e:
-            return jsonify({"error": f"Failed to parse the command: {parsed_command_text}"}), 400
+            return jsonify({"error": f"Failed to parse the command: {e}"}), 400
 
         print(f"Parsed command: {parsed_command}")
         api_response = activate_module(session_id, parsed_command, chat)
