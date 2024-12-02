@@ -1,12 +1,7 @@
-import webbrowser
-
 import google.generativeai as genai
-
 import requests
 
-
 from .config import GOOGLE_API_KEY, GOOGLE_CSE_ID, GEMINI_API_KEY
-
 
 # Configure Gemini API
 genai.configure(api_key=GEMINI_API_KEY)
@@ -38,36 +33,19 @@ def search_web(query, num_results=5):
         results = response.json()
 
         if "items" not in results:
-            print("No results found.")
-            return []
+            return {"error": "No results found."}
 
-        search_results = []
-        for item in results["items"]:
-            search_results.append({
+        search_results = [
+            {
                 "title": item["title"],
                 "link": item["link"],
                 "snippet": item.get("snippet", "No description available.")
-            })
-
-        return search_results
+            }
+            for item in results["items"]
+        ]
+        return {"results": search_results}
     except requests.exceptions.RequestException as e:
-        print(f"An error occurred while performing the search: {e}")
-        return []
-
-
-def display_results(results):
-    """
-    Displays search results in a readable format.
-
-    Parameters:
-        results (list): List of search results.
-    """
-    print("\nSearch Results:")
-    for i, result in enumerate(results, start=1):
-        print(f"\nResult {i}:")
-        print(f"Title: {result['title']}")
-        print(f"Link: {result['link']}")
-        print(f"Snippet: {result['snippet']}\n")
+        return {"error": f"An error occurred while performing the search: {str(e)}"}
 
 
 def summarize_results_with_gemini(results):
@@ -89,53 +67,33 @@ def summarize_results_with_gemini(results):
     return "No content available for summarization."
 
 
-def open_link(results):
+def web_browsing_voice_interaction(data):
     """
-    Allows the user to choose and open a link from the search results.
+    Web browsing interaction logic for the API.
 
     Parameters:
-        results (list): List of search results.
-    """
-    for i, result in enumerate(results, start=1):
-        print(f"{i}. {result['title']} - {result['link']}")
-    print("Please select a link by saying the corresponding number.")
-    choice = input()
-    if choice.isdigit() and 1 <= int(choice) <= len(results):
-        webbrowser.open(results[int(choice) - 1]["link"])
-        print(f"Opening link: {results[int(choice) - 1]['link']}")
-    else:
-        print("No link selected.")
+        query (str): The search query.
+        action (str): Specify action: 'search', 'summarize', or 'open'.
+        selected_index (int): Index of the link to open (used for 'open' action).
 
-
-
-
-
-def web_browsing_voice_interaction(query):
-    """
-    Voice interaction for the Web Browsing Module.
-    Handles search, displays results, summarizes, and opens links based on voice commands.
+    Returns:
+        dict: Response dictionary containing search results, summary, or a success message for opening links.
     """
 
-    if query:
-        # Fetch search results
-        print(f"Searching for {query}.")
-        results = search_web(query)
+    payload = data.get("payload", {})
+    query = payload.get("query", "")
+    action = payload.get("action", "")
 
-        # Display results
-        print("Here are the top search results.")
-        display_results(results)
+    if not query:
+        return {"error": "Query is required for web browsing."}
 
-        # Summarize results with Gemini
-        print("Would you like a summary of the results?")
-        if "yes" in input().lower():
-            summary = summarize_results_with_gemini(results)
-            print("Here is a summary of the search results.")
-            print("\nSummary of Search Results:\n", summary)
+    results = search_web(query)
+    if "error" in results:
+        return results
 
-        # Open a link if requested
-        print("Would you like to open any of these links?")
-        response = input().lower()
-        if "yes" in response:
-            open_link(results)
-        else:
-            print("Returning to search query mode. Please provide another query or say 'exit' to quit.")
+    if action == "summarize":
+        summary = summarize_results_with_gemini(results["results"])
+        return {"summary": summary}
+
+    # Default action is to return the search results
+    return results

@@ -8,24 +8,27 @@ from .email_management import email_voice_interaction
 from .weather_and_news import weather_and_news_voice_interaction
 
 
-def activate_module(session_id, command, chat):
+def activate_module(session_id, data, chat):
     """
-    Activate the appropriate module based on the user's command.
+    Activate the appropriate module based on the user's data and return the response.
     """
-
+    # Default response from data history handling
+    command = data.get("command", "")
     response = handle_user_command(session_id, command, chat)
 
+    # Determine the module to activate based on keywords in the data
     if "task" in command:
-        task_voice_interaction(command)
+        response = task_voice_interaction(data)
     elif "web" in command or "search" in command or "browse" in command:
-        web_browsing_voice_interaction(command)
+        response = web_browsing_voice_interaction(data)
     elif "note" in command:
-        note_voice_interaction(command)
+        response = note_voice_interaction(data)
     elif "translation" in command or "translate" in command:
-        translation_voice_interaction()
+        response = translation_voice_interaction()
     elif "email" in command or "mail" in command or "inbox" in command:
-        email_voice_interaction(command)
+        response = email_voice_interaction(data)
     elif "weather" in command or "news" in command or "headline" in command or "article" in command:
-        weather_and_news_voice_interaction(command)
-    else:
-        print(response)
+        response = weather_and_news_voice_interaction(data)
+
+    # Fallback to the default response if no modules are triggered
+    return response

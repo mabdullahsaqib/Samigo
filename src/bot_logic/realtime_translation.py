@@ -1,4 +1,3 @@
-
 from googletrans import Translator
 
 
@@ -15,44 +14,57 @@ def translate_text(text, target_language="en"):
         target_language (str): The language code to translate the text to (e.g., "en" for English, "fr" for French).
 
     Returns:
-        str: The translated text.
+        dict: A dictionary containing the detected language and translated text.
     """
     try:
         # Detect the original language
-        detected_language = translator.detect(text).lang
-        print(f"Detected language: {detected_language}")
+        detection = translator.detect(text)
+        detected_language = detection.lang
+        confidence = detection.confidence
+        print(f"Detected language: {detected_language} (Confidence: {confidence * 100:.2f}%)")
 
         # Translate the text to the target language
         translated = translator.translate(text, dest=target_language)
         print(f"Translated to {target_language}: {translated.text}")
 
-        return translated.text
-
+        return {
+            "detected_language": detected_language,
+            "confidence": confidence,
+            "translated_text": translated.text
+        }
     except Exception as e:
         print(f"Error during translation: {e}")
-        return None
+        return {
+            "error": str(e)
+        }
 
 
-def translation_voice_interaction():
+def translation_voice_interaction(data):
     """
-    Main function to interact with the Real-Time Translation system.
-    It inputs for input in one language and translates it to another language.
+    Handle translation requests in a structured format.
+
+    Parameters:
+        request_data (dict): JSON input with `text` and `target_language`.
+
+    Example Request:
+        {
+            "text": "Bonjour",
+            "target_language": "en"
+        }
+
+    Returns:
+        dict: JSON response containing detected language, confidence, and translated text.
     """
-    print("Real-Time Translation - Say 'exit' to quit.")
+    try:
+        payload = data.get("payload", {})
+        text = payload.get("text", "")
+        target_language = data.get("target_language", "en")
 
-    while True:
-        print("\nPlease say something to translate...")
-        text_to_translate = input()
+        if not text:
+            return {"error": "No text provided for translation."}
 
-        if text_to_translate.lower() == "exit":
-            print("Exiting Real-Time Translation.")
-            break
+        translation_result = translate_text(text, target_language)
+        return translation_result
 
-        print(f"Original Text: {text_to_translate}")
-
-        # Ask the user for the target language
-        target_language = "en"
-
-        translated_text = translate_text(text_to_translate, target_language)
-        print("Translated Text : " + translated_text)
-        print(translated_text)
+    except Exception as e:
+        return {"error": str(e)}

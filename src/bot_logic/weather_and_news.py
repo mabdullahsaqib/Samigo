@@ -1,9 +1,5 @@
-
 import requests
-
-
 from .config import WEATHER_API_KEY, WEATHER_API_HOST, NEWS_API_KEY
-
 
 # Weather API setup
 WEATHER_API_URL = "https://weatherapi-com.p.rapidapi.com/current.json"
@@ -14,6 +10,15 @@ NEWS_API_URL = "https://newsapi.org/v2/top-headlines"
 
 # Weather fetching function
 def get_weather(location):
+    """
+    Fetches the current weather for a specified location.
+
+    Parameters:
+        location (str): The location for which to fetch the weather.
+
+    Returns:
+        dict: A dictionary with weather data or None if an error occurs.
+    """
     querystring = {"q": location}
     headers = {
         "x-rapidapi-key": WEATHER_API_KEY,
@@ -42,11 +47,22 @@ def get_weather(location):
 
     except requests.RequestException as e:
         print(f"Error fetching weather data: {e}")
-        return None
+        return {"error": str(e)}
 
 
 # News fetching function
 def get_news(country="us", category="general", num_articles=5):
+    """
+    Fetches the latest news headlines.
+
+    Parameters:
+        country (str): The country code for the news (default is 'us').
+        category (str): The news category (default is 'general').
+        num_articles (int): The number of articles to fetch (default is 5).
+
+    Returns:
+        list: A list of news articles or None if an error occurs.
+    """
     params = {
         "country": country,
         "category": category,
@@ -68,33 +84,40 @@ def get_news(country="us", category="general", num_articles=5):
 
     except requests.RequestException as e:
         print(f"Error fetching news data: {e}")
-        return None
+        return {"error": str(e)}
 
 
+# Function to handle voice commands for Weather and News (Refactored for Flask)
+def weather_and_news_voice_interaction(data):
+    """
+    Handles voice commands for fetching weather and news.
 
+    Parameters:
+        data (dict): A dictionary containing the user's request. The command can be 'weather' or 'news'.
 
+    Returns:
+        dict: A response dictionary with weather or news information, or an error message.
+    """
+    command = data.get("command", "")
+    payload = data.get("payload", {})
 
-
-
-# Function to handle voice commands for Weather and News
-def weather_and_news_voice_interaction(command):
     if "weather" in command:
-        weather_info = get_weather("Canada")
-        if weather_info:
-            print(
-                f"The weather in {weather_info['location']} is {weather_info['temperature']} degrees Celsius, {weather_info['condition']}.")
-            print(
-                f"The humidity is {weather_info['humidity']}%, and the wind speed is {weather_info['wind_speed']} kilometers per hour.")
+        location = payload.get("location", "Zurich").strip()  # Default location if none provided
+        weather_info = get_weather(location)
+        if "error" in weather_info:
+            response = {"error": "Unable to fetch weather data."}
         else:
-            print("Sorry, I couldn't fetch the weather information.")
+            response = weather_info
 
     elif "news" in command:
-        print("Fetching the latest news...")
-        news_headlines = get_news(num_articles=5)
-        if news_headlines:
-            print(f"Here are the top 5 headlines:")
-            for i, article in enumerate(news_headlines, 1):
-                print(f"Headline {i}: {article['title']}.")
-                print(f"Description: {article['description']}")
+        category = payload.get("category", "general").strip()  # Default category if none provided
+        news_headlines = get_news(category=category, num_articles=5)
+        if "error" in news_headlines:
+            response = {"error": "Unable to fetch news data."}
         else:
-            print("Sorry, I couldn't fetch the news.")
+            response = {"news": news_headlines}
+
+    else:
+        response = {"error": "Command not recognized. Please use 'weather' or 'news'."}
+
+    return response
