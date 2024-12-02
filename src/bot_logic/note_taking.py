@@ -117,11 +117,11 @@ def note_voice_interaction(data):
         }
     """
 
-    action = data.get("action")
+    action = data.get("command", "")
     payload = data.get("payload", {})
 
     if action == "add":
-        return jsonify(add_note(payload.get("title"), payload.get("content"), payload.get("tags")))
+        return add_note(payload.get("title"), payload.get("content"), payload.get("tags"))
 
     elif action == "retrieve":
         return jsonify(retrieve_notes(
@@ -132,18 +132,18 @@ def note_voice_interaction(data):
         ))
 
     elif action == "summarize":
-        return jsonify(summarize_note(payload.get("note_id")))
+        return summarize_note(payload.get("note_id"))
 
     elif action == "delete":
-        return jsonify(delete_note(payload.get("note_id")))
+        return delete_note(payload.get("note_id"))
 
     elif action == "edit":
-        return jsonify(edit_note(
+        return edit_note(
             note_id=payload.get("note_id"),
             new_title=payload.get("new_title"),
             new_content=payload.get("new_content"),
             new_tags=payload.get("new_tags"),
-        ))
+        )
 
     else:
-        return jsonify({"error": "Invalid action specified."})
+        return {"error": "Invalid action specified."}

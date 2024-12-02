@@ -13,21 +13,21 @@ def activate_module(session_id, data, chat):
     Activate the appropriate module based on the user's data and return the response.
     """
     # Default response from data history handling
-    command = data.get("command", "")
-    response = handle_user_command(session_id, command, chat)
+    module = data.get("module", "")
+    response = handle_user_command(session_id, data.get("command", module), chat)
 
     # Determine the module to activate based on keywords in the data
-    if "task" in command:
+    if "task" in module or "reminder" in module or "schedule" in module:
         response = task_voice_interaction(data)
-    elif "web" in command or "search" in command or "browse" in command:
+    elif "web" in module or "search" in module or "browse" in module or "website" in module:
         response = web_browsing_voice_interaction(data)
-    elif "note" in command:
+    elif "note" in module or  "record" in module or "write" in module:
         response = note_voice_interaction(data)
-    elif "translation" in command or "translate" in command:
+    elif "translation" in module or "translate" in module or "language" in module or "interpret" in module:
         response = translation_voice_interaction()
-    elif "email" in command or "mail" in command or "inbox" in command:
+    elif "email" in module or "mail" in module or "inbox" in module:
         response = email_voice_interaction(data)
-    elif "weather" in command or "news" in command or "headline" in command or "article" in command:
+    elif "weather" in module or "news" in module or "headline" in module or "article" in module or "forecast" in module or "temperature" in module:
         response = weather_and_news_voice_interaction(data)
 
     # Fallback to the default response if no modules are triggered

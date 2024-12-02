@@ -27,7 +27,7 @@ generation_config = {
 
 # Initialize the generative AI model
 model = genai.GenerativeModel(
-    model_name="genai-1.5-flash",
+    model_name="gemini-1.5-flash",
     generation_config=generation_config,
 )
 
@@ -44,59 +44,59 @@ def execute_command():
     print(f"Received command: {raw_command}")
 
     parsed_command_response = model.generate_content(f"""
-        You are a natural language processing model tasked with interpreting and processing user commands related to various tasks. The commands could involve interacting with different modules, and each module requires specific data inputs.
-        
+    Extract the required information from the following command and return a dictionary. The dictionary keys should match the expected fields for the Samigo Bot API commands, and the values should be extracted or inferred from the command. If a value is missing in the command, leave it.
+    
         Here are the modules and their expected data inputs:
         
         1. **Task Management Module**:
             - Commands: "add", "priority", "category", "upcoming", "delete"
             - Expected Payload: 
-                - For "add": {"description": string, "deadline": string (optional) }
-                - For "priority": {"priority": string (e.g., "high", "medium", "low") }
-                - For "category": {"category": string (e.g., "work", "personal") }
-                - For "upcoming": {"deadline": string (optional) }
-                - For "delete": {"title": string }
+                - For "add": {{"description": string, "deadline": string (optional) }}
+                - For "priority": {{"priority": string (e.g., "high", "medium", "low") }}
+                - For "category": {{"category": string (e.g., "work", "personal") }}
+                - For "upcoming": {{"deadline": string (optional) }}
+                - For "delete": {{"title": string }}
         
         2. **Web Browsing Module**:
             - Commands: "search", "summarize"
             - Expected Payload:
-                - For "search": {"query": string, "action": string ("summarize" if needed) }
+                - For "search": {{"query": string, "action": string ("summarize" if needed) }}
         
         3. **Note Management Module**:
             - Commands: "add", "retrieve", "summarize", "delete", "edit"
             - Expected Payload:
-                - For "add": {"title": string, "content": string, "tags": list (optional) }
-                - For "retrieve": {"note_id": string (optional), "keyword": string (optional), "tag": string (optional), "date_range": string (optional) }
-                - For "summarize": {"note_id": string }
-                - For "delete": {"note_id": string }
-                - For "edit": {"note_id": string, "new_title": string, "new_content": string, "new_tags": list (optional) }
+                - For "add": {{"title": string, "content": string, "tags": list (optional) }}
+                - For "retrieve": {{"note_id": string (optional), "keyword": string (optional), "tag": string (optional), "date_range": string (optional) }}
+                - For "summarize": {{"note_id": string }}
+                - For "delete": {{"note_id": string }}
+                - For "edit": {{"note_id": string, "new_title": string, "new_content": string, "new_tags": list (optional) }}
         
         4. **Translation Module**:
             - Commands: "translate"
             - Expected Payload:
-                - For "translate": {"text": string, "target_language": string (optional, default is "en") }
+                - For "translate": {{"text": string, "target_language": string (optional, default is "en") }}
         
         5. **Weather and News Module**:
             - Commands: "weather", "news"
             - Expected Payload:
-                - For "weather": {"location": string (default is "Zurich") }
-                - For "news": {"category": string (e.g., "general", "business", etc.) }
+                - For "weather": {{"location": string (default is "Zurich") }}
+                - For "news": {{"category": string (e.g., "general", "business", etc.) }}
         
         6. **Email Management Module**:
             - Commands: "fetch", "send", "summarize", "reply"
             - Expected Payload:
                 - For "fetch": no additional data required 
-                - For "send": {"to_email": string, "subject": string, "message_text": string }
-                - For "summarize": {"email_id": string }
-                - For "reply": {"email_id": string }
+                - For "send": {{"to_email": string, "subject": string, "message_text": string }}
+                - For "summarize": {{"email_id": string }}
+                - For "reply": {{"email_id": string }}
         
         ### Task:
         Please parse the user's natural language command and return a dictionary with the following structure:
-        {
+        {{
     "module": string (e.g., "task", "web", "note", "translate", "weather", "news", "email"),
           "command": string (specific command like "add", "fetch", "send", "weather"),
           "payload": specific parameters required for the module and command as described above
-        }
+        }}
         The "module" indicates which module the command belongs to (task management, web browsing, etc.), "command" specifies the action to be performed, and "payload" contains the necessary data.
         
         Please handle the natural language input and parse it accordingly. If the command is invalid or unclear, respond with a message indicating that the command is not recognized.
@@ -106,190 +106,196 @@ def execute_command():
         1. **Command**: "Add a task with the description 'Finish report' and set the deadline to next Monday."
             - **Parsed Output**: 
             ```json
-            {
+            {{
     "module": "task",
               "command": "add",
-              "payload": {
+              "payload": {{
     "description": "Finish report",
                 "deadline": "next Monday"
-              }
-            }
+              }}
+            }}
             ```
         
         2. **Command**: "Show me the latest weather in Paris."
             - **Parsed Output**:
             ```json
-            {
+            {{
     "module": "weather",
               "command": "weather",
-              "payload": {
+              "payload": {{
     "location": "Paris"
-              }
-            }
+              }}
+            }}
             ```
         
         3. **Command**: "Please send an email to john.doe@example.com with the subject 'Meeting' and message 'Let's meet tomorrow'."
             - **Parsed Output**:
             ```json
-            {
+            {{
     "module": "email",
               "command": "send",
-              "payload": {
+              "payload": {{
     "to_email": "john.doe@example.com",
                 "subject": "Meeting",
                 "message_text": "Let's meet tomorrow"
-              }
-            }
+              }}
+            }}
             ```
         
         4. **Command**: "Get me the top 5 news headlines in the business category."
             - **Parsed Output**:
             ```json
-            {
+            {{
     "module": "news",
               "command": "news",
-              "payload": {
+              "payload": {{
     "category": "business"
-              }
-            }
+              }}
+            }}
             ```
         
         5. **Command**: "Translate 'Hola, ¿cómo estás?' into English."
             - **Parsed Output**:
             ```json
-            {
+            {{
     "module": "translate",
               "command": "translate",
-              "payload": {
+              "payload": {{
     "text": "Hola, ¿cómo estás?",
                 "target_language": "en"
-              }
-            }
+              }}
+            }}
             ```
         
         6. **Command**: "Please add a note titled 'Meeting Notes' with the content 'Discussed project updates' and tagged 'work'."
             - **Parsed Output**:
             ```json
-            {
+            {{
     "module": "note",
               "command": "add",
-              "payload": {
+              "payload": {{
     "title": "Meeting Notes",
                 "content": "Discussed project updates",
                 "tags": ["work"]
-              }
-            }
+              }}
+            }}
             ```
         
         7. **Command**: "Show me notes about 'project' from last week."
             - **Parsed Output**:
             ```json
-            {
+            {{
     "module": "note",
               "command": "retrieve",
-              "payload": {
+              "payload": {{
     "keyword": "project",
                 "date_range": "last week"
-              }
-            }
+              }}
+            }}
             ```
         
         8. **Command**: "Summarize the email with ID 12345."
             - **Parsed Output**:
             ```json
-            {
+            {{
     "module": "email",
               "command": "summarize",
-              "payload": {
+              "payload": {{
     "email_id": "12345"
-              }
-            }
+              }}
+            }}
             ```
         
         9. **Command**: "Delete the task titled 'Buy groceries'."
             - **Parsed Output**:
             ```json
-            {
+            {{
     "module": "task",
               "command": "delete",
-              "payload": {
+              "payload": {{
     "title": "Buy groceries"
-              }
-            }
+              }}
+            }}
             ```
         
         10. **Command**: "Fetch emails from my inbox."
             - **Parsed Output**:
             ```json
-            {
+            {{
     "module": "email",
               "command": "fetch",
-              "payload": { {} }
-            }
+              "payload": {{}} 
+            }}
             ```
         
         11. **Command**: "Show me the weather forecast for New York City tomorrow."
             - **Parsed Output**:
             ```json
-            {
+            {{
     "module": "weather",
               "command": "weather",
-              "payload": {
+              "payload": {{
     "location": "New York City"
-              }
-            }
+              }}
+            }}
             ```
         
         12. **Command**: "Summarize the web search results about 'artificial intelligence'."
             - **Parsed Output**:
             ```json
-            {
+            {{
     "module": "web",
               "command": "summarize",
-              "payload": {
+              "payload": {{
     "query": "artificial intelligence",
                 "action": "summarize"
-              }
-            }
+              }}
+            }}
             ```
         
         13. **Command**: "Translate 'Bonjour' into Spanish."
             - **Parsed Output**:
             ```json
-            {
+            {{
     "module": "translate",
               "command": "translate",
-              "payload": {
+              "payload": {{
     "text": "Bonjour",
                 "target_language": "es"
-              }
-            }
+              }}
+            }}
             ```
         
         14. **Command**: "Add a high-priority task to finish the report by Friday."
             - **Parsed Output**:
             ```json
-            {
+            {{
     "module": "task",
               "command": "priority",
-              "payload": {
+              "payload": {{
     "priority": "high"
-              }
-            }
+              }}
+            }}
             ```
         
         15. **Command**: "Fetch the top news in technology."
             - **Parsed Output**:
             ```json
-            {
+            {{
     "module": "news",
               "command": "news",
-              "payload": {
+              "payload": {{
     "category": "technology"
-              }
-            }
+              }}
+            }}
             ```
-        """
+            
+            
+Only provide the dictionary in the response. nothing more, nothing less. Don't even write anything or before the brackets.
+
+Now process the following command: "{raw_command}"
+"""
+
                                                      )
 
     try:
@@ -308,10 +314,10 @@ def execute_command():
         api_response = activate_module(session_id, parsed_command, chat)
         print(f"API response: {api_response}\n")
 
-        if "Failed" in api_response:
-            return jsonify({"error": "Invalid command"}), 400
-        else:
-            natural_response = model.generate_content(f"""
+        # if "error" in api_response:
+        #    return jsonify({"error": "Invalid command"}), 400
+        # else:
+        natural_response = model.generate_content(f"""
             You are a natural language processing model tasked with converting structured data output into natural language responses. Your goal is to generate user-friendly, conversational outputs that explain the results of various actions performed on different modules. 
             
             Here are the modules and the corresponding structured output you will convert into natural language:
@@ -430,6 +436,14 @@ def execute_command():
                 - **Output**: "Summary of note 'Project Meeting': Project updates discussed, deadlines confirmed."
             
             14. **Input**: {{ "status": "success", "message": "Reply sent to email ID 12345" }}
+            
+             ---            
+
+            ### Inputs:
+            **Raw Command**: "{raw_command}"
+            **API Response**: {api_response}
+
+            ### Answer:
         """)
 
         natural_response_text = natural_response.text.strip()
