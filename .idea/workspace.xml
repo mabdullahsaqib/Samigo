@@ -7,13 +7,6 @@
     <list default="true" id="579bf43c-2a2d-4e5d-bf14-dac4706e0817" name="Changes" comment="gitignore">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/app.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/bot_logic/email_management.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/bot_logic/email_management.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/bot_logic/note_taking.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/bot_logic/note_taking.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/bot_logic/realtime_translation.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/bot_logic/realtime_translation.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/bot_logic/task_management.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/bot_logic/task_management.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/bot_logic/voice_interaction.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/bot_logic/voice_interaction.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/bot_logic/weather_and_news.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/bot_logic/weather_and_news.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/bot_logic/web_browsing.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/bot_logic/web_browsing.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -86,7 +79,7 @@
       <workItem from="1733033170002" duration="76000" />
       <workItem from="1733038586296" duration="344000" />
       <workItem from="1733038954645" duration="3620000" />
-      <workItem from="1733133755106" duration="3649000" />
+      <workItem from="1733133755106" duration="5995000" />
     </task>
     <task id="LOCAL-00001" summary="init commit">
       <option name="closed" value="true" />
