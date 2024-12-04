@@ -4,7 +4,7 @@ from .config import FIREBASE_CREDENTIALS_TYPE, PROJECT_ID, FIREBASE_PRIVATE_KEY,
 
 #Initialize Firebase
 cred = credentials.Certificate({
-    "type": FIREBASE_CREDENTIALS_TYPE,
+    "type": "service_account",
     "project_id": PROJECT_ID,
     "private_key": FIREBASE_PRIVATE_KEY,
     "client_email": FIREBASE_CLIENT_EMAIL,
