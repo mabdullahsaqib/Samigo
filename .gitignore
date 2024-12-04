@@ -186,3 +186,4 @@ fabric.properties
 /credentials.json
 /gmail_credentials.json
 /token.json
+/src/bot_logic/token.json

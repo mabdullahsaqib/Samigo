@@ -7,7 +7,7 @@ from google.oauth2.credentials import Credentials
 from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
-from .config import GEMINI_API_KEY, GMAIL_CREDENTIALS_PATH, GMAIL_TOKEN_PATH
+from .config import GMAIL_TOKEN_PATH, GEMINI_API_KEY, GMAIL_CLIENT_ID, GMAIL_CLIENT_SECRET, GMAIL_AUTH_PROVIDER_CERT, TOKEN_URI, AUTH_URI, PROJECT_ID
 
 # Define the Gmail API scope
 SCOPES = ['https://www.googleapis.com/auth/gmail.readonly',
@@ -16,6 +16,7 @@ SCOPES = ['https://www.googleapis.com/auth/gmail.readonly',
 # Initialize Gemini API
 genai.configure(api_key=GEMINI_API_KEY)
 model = genai.GenerativeModel("gemini-1.5-flash")
+
 
 def authenticate_gmail():
     """
@@ -28,11 +29,24 @@ def authenticate_gmail():
         if creds and creds.expired and creds.refresh_token:
             creds.refresh(Request())
         else:
-            flow = InstalledAppFlow.from_client_secrets_file(GMAIL_CREDENTIALS_PATH, SCOPES)
+            flow = InstalledAppFlow.from_client_config(
+                {"web":
+                    {
+                        "client_id": GMAIL_CLIENT_ID,
+                        "project_id": PROJECT_ID,
+                        "auth_uri": AUTH_URI,
+                        "token_uri": TOKEN_URI,
+                        "auth_provider_x509_cert_url": GMAIL_AUTH_PROVIDER_CERT,
+                        "client_secret": GMAIL_CLIENT_SECRET
+                    }
+                },
+                SCOPES
+            )
             creds = flow.run_local_server(port=0)
         with open(GMAIL_TOKEN_PATH, 'w') as token:
             token.write(creds.to_json())
     return creds
+
 
 def fetch_emails(service, max_results=5):
     """
@@ -61,6 +75,7 @@ def fetch_emails(service, max_results=5):
     except HttpError as error:
         return {"error": str(error)}
 
+
 def send_email(service, to_email, subject, message_text):
     """
     Sends an email with the specified recipient, subject, and body.
@@ -76,6 +91,7 @@ def send_email(service, to_email, subject, message_text):
     except HttpError as error:
         return {"error": str(error)}
 
+
 def summarize_email(service, email_id):
     """
     Summarizes the content of an email by its ID using Gemini.
@@ -88,6 +104,7 @@ def summarize_email(service, email_id):
         return {"summary": summary.text}
     except HttpError as error:
         return {"error": str(error)}
+
 
 def send_email_with_generated_response(service, email_id):
     """
@@ -104,6 +121,7 @@ def send_email_with_generated_response(service, email_id):
         return send_email(service, sender_email, subject, response.text)
     except HttpError as error:
         return {"error": str(error)}
+
 
 def email_voice_interaction(data):
     """

@@ -5,9 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="579bf43c-2a2d-4e5d-bf14-dac4706e0817" name="Changes" comment="update app.py">
-      <change beforePath="$PROJECT_DIR$/src/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/app.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/bot_logic/note_taking.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/bot_logic/note_taking.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/bot_logic/voice_interaction.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/bot_logic/voice_interaction.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/bot_logic/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/bot_logic/config.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/bot_logic/email_management.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/bot_logic/email_management.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/bot_logic/firebase_initializer.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/bot_logic/firebase_initializer.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -33,27 +34,30 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Python.app.executor&quot;: &quot;Run&quot;,
-    &quot;Python.interaction_history.executor&quot;: &quot;Run&quot;,
-    &quot;Python.main.executor&quot;: &quot;Run&quot;,
-    &quot;Python.voice_interaction.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Python.app.executor": "Run",
+    "Python.config.executor": "Run",
+    "Python.email_management.executor": "Run",
+    "Python.firebase_initializer.executor": "Run",
+    "Python.interaction_history.executor": "Run",
+    "Python.main.executor": "Run",
+    "Python.voice_interaction.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "master",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\Administrator\Documents\PyCharm\Samigo\src\bot_logic" />
-      <recent name="C:\Users\Administrator\Documents\PyCharm\Samigo\src" />
       <recent name="C:\Users\Administrator\Documents\PyCharm\Samigo" />
+      <recent name="C:\Users\Administrator\Documents\PyCharm\Samigo\src" />
+      <recent name="C:\Users\Administrator\Documents\PyCharm\Samigo\src\bot_logic" />
     </key>
   </component>
   <component name="SharedIndexes">
@@ -81,6 +85,7 @@
       <workItem from="1733038586296" duration="344000" />
       <workItem from="1733038954645" duration="3620000" />
       <workItem from="1733133755106" duration="11323000" />
+      <workItem from="1733325797567" duration="6488000" />
     </task>
     <task id="LOCAL-00001" summary="init commit">
       <option name="closed" value="true" />
@@ -122,6 +127,9 @@
     <SUITE FILE_PATH="coverage/Samigo$interaction_history.coverage" NAME="interaction_history Coverage Results" MODIFIED="1732981325188" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
     <SUITE FILE_PATH="coverage/Samigo$app.coverage" NAME="app Coverage Results" MODIFIED="1733042183440" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
     <SUITE FILE_PATH="coverage/Samigo$main.coverage" NAME="main Coverage Results" MODIFIED="1732845185282" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
+    <SUITE FILE_PATH="coverage/Samigo$email_management.coverage" NAME="email_management Coverage Results" MODIFIED="1733332292881" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/bot_logic" />
+    <SUITE FILE_PATH="coverage/Samigo$config.coverage" NAME="config Coverage Results" MODIFIED="1733329326059" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/bot_logic" />
     <SUITE FILE_PATH="coverage/Samigo$voice_interaction.coverage" NAME="voice_interaction Coverage Results" MODIFIED="1732983876820" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
+    <SUITE FILE_PATH="coverage/Samigo$firebase_initializer.coverage" NAME="firebase_initializer Coverage Results" MODIFIED="1733329332157" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/bot_logic" />
   </component>
 </project>
