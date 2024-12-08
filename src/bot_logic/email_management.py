@@ -9,7 +9,7 @@ from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 
-from config import GMAIL_TOKEN_PATH, GEMINI_API_KEY, GMAIL_CLIENT_ID, GMAIL_CLIENT_SECRET, GMAIL_AUTH_PROVIDER_CERT, \
+from .config import GMAIL_TOKEN_PATH, GEMINI_API_KEY, GMAIL_CLIENT_ID, GMAIL_CLIENT_SECRET, GMAIL_AUTH_PROVIDER_CERT, \
     TOKEN_URI, AUTH_URI, PROJECT_ID
 
 # Define the Gmail API scope
@@ -26,7 +26,7 @@ def authenticate_gmail():
     Authenticates and returns Gmail API service credentials.
     """
     creds = None
-    if os.path.exists("dada"):
+    if os.path.exists(GMAIL_TOKEN_PATH):
         creds = Credentials.from_authorized_user_file(GMAIL_TOKEN_PATH, SCOPES)
     if not creds or not creds.valid:
         if creds and creds.expired and creds.refresh_token:
@@ -45,21 +45,7 @@ def authenticate_gmail():
                 },
                 SCOPES
             )
-            flow.redirect_uri = 'https://samigo.vercel.app/'
-            authorization_url, state = flow.authorization_url(
-                access_type='offline',
-                include_granted_scopes='true',
-                prompt='consent')
-
-            print('Please go to this URL and authorize access: ', authorization_url)
-
-            # now how to get the authorization response
-
-
-
-            creds = flow.fetch_token(authorization_response = authorization_response)
-
-
+            creds = flow.run_local_server(port=0)
         with open(GMAIL_TOKEN_PATH, 'w') as token:
             token.write(creds.to_json())
     return creds
@@ -176,11 +162,3 @@ def email_voice_interaction(data):
         response = {"error": "Command not recognized. Please try again."}
 
     return response
-
-if __name__ == "__main__":
-    # Test the email_voice_interaction function
-    data = {
-        "command": "fetch emails",
-        "payload": {}
-    }
-    print(email_voice_interaction(data))

@@ -5,9 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="579bf43c-2a2d-4e5d-bf14-dac4706e0817" name="Changes" comment="failed credentials getting">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/bot_logic/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/bot_logic/config.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/bot_logic/email_management.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/bot_logic/email_management.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -92,6 +90,8 @@
       <workItem from="1733657512948" duration="2140000" />
       <workItem from="1733667714769" duration="1924000" />
       <workItem from="1733674803110" duration="4633000" />
+      <workItem from="1733680088044" duration="35000" />
+      <workItem from="1733680157386" duration="31000" />
     </task>
     <task id="LOCAL-00001" summary="init commit">
       <option name="closed" value="true" />
