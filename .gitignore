@@ -188,3 +188,4 @@ fabric.properties
 /token.json
 /src/bot_logic/token.json
 /require.txt
+/gmail_credentials_android.json
