@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-#Configurations
+# Configurations
 PROJECT_ID = os.getenv("PROJECT_ID")
 AUTH_URI = os.getenv("AUTH_URI")
 TOKEN_URI = os.getenv("TOKEN_URI")

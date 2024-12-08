@@ -1,13 +1,16 @@
 import base64
 import os.path
 from email.mime.text import MIMEText
+
 import google.generativeai as genai  # Ensure Gemini API client is imported
 from google.auth.transport.requests import Request
 from google.oauth2.credentials import Credentials
 from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
-from .config import GMAIL_TOKEN_PATH, GEMINI_API_KEY, GMAIL_CLIENT_ID, GMAIL_CLIENT_SECRET, GMAIL_AUTH_PROVIDER_CERT, TOKEN_URI, AUTH_URI, PROJECT_ID
+
+from .config import GMAIL_TOKEN_PATH, GEMINI_API_KEY, GMAIL_CLIENT_ID, GMAIL_CLIENT_SECRET, GMAIL_AUTH_PROVIDER_CERT, \
+    TOKEN_URI, AUTH_URI, PROJECT_ID
 
 # Define the Gmail API scope
 SCOPES = ['https://www.googleapis.com/auth/gmail.readonly',

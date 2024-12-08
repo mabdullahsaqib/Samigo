@@ -1,6 +1,8 @@
 from datetime import datetime
+
 import dateparser
 import google.generativeai as genai
+
 from .config import GEMINI_API_KEY
 from .firebase_initializer import db
 

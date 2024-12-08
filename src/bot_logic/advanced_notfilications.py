@@ -1,10 +1,7 @@
 from datetime import datetime, timedelta
 
-from firebase_admin import firestore
-
 # Firebase initialization
 from .firebase_initializer import db
-
 
 
 def check_and_notify_tasks():

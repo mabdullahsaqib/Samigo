@@ -1,7 +1,7 @@
 from datetime import datetime
+
 import google.generativeai as genai
-from firebase_admin import firestore
-from flask import jsonify, request
+
 from .config import GEMINI_API_KEY
 from .firebase_initializer import db
 

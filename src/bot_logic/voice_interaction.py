@@ -1,11 +1,11 @@
 # Import all the modules as needed
+from .email_management import email_voice_interaction
 from .interaction_history import handle_user_command
-from .task_management import task_voice_interaction
-from .web_browsing import web_browsing_voice_interaction
 from .note_taking import note_voice_interaction
 from .realtime_translation import translation_voice_interaction
-from .email_management import email_voice_interaction
+from .task_management import task_voice_interaction
 from .weather_and_news import weather_and_news_voice_interaction
+from .web_browsing import web_browsing_voice_interaction
 
 
 def activate_module(session_id, data, chat):
@@ -21,7 +21,7 @@ def activate_module(session_id, data, chat):
         response = task_voice_interaction(data)
     elif "web" in module or "search" in module or "browse" in module or "website" in module:
         response = web_browsing_voice_interaction(data)
-    elif "note" in module or  "record" in module or "write" in module:
+    elif "note" in module or "record" in module or "write" in module:
         response = note_voice_interaction(data)
     elif "translation" in module or "translate" in module or "language" in module or "interpret" in module:
         response = translation_voice_interaction()
