@@ -124,12 +124,12 @@ def note_voice_interaction(data):
         return add_note(payload.get("title"), payload.get("content"), payload.get("tags"))
 
     elif action == "retrieve":
-        return jsonify(retrieve_notes(
+        return retrieve_notes(
             note_id=payload.get("note_id"),
             keyword=payload.get("keyword"),
             tag=payload.get("tag"),
             date_range=payload.get("date_range"),
-        ))
+        )
 
     elif action == "summarize":
         return summarize_note(payload.get("note_id"))

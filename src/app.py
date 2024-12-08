@@ -45,6 +45,7 @@ def execute_command():
 
     parsed_command_response = model.generate_content(f"""
     Extract the required information from the following command and return a dictionary. The dictionary keys should match the expected fields for the Samigo Bot API commands, and the values should be extracted or inferred from the command. If a value is missing in the command, leave it.
+    Look out for any grammatical errors in the raw command and assume the correct word.
     
         Here are the modules and their expected data inputs:
         
@@ -290,6 +291,19 @@ def execute_command():
             }}
             ```
             
+    If no module is selected, reply to the message as a conversational chat message :
+    
+        16. **Command**: "Hello, how are you today?"
+            - **Parsed Output**:
+            ```json
+            {{
+       "module": "", 
+    "message":  (reply to the message)
+                }}
+                ```
+            
+    
+            
             
 Only provide the dictionary in the response. nothing more, nothing less. Don't even write anything or before the brackets.
 
@@ -311,7 +325,13 @@ Now process the following command: "{raw_command}"
             return jsonify({"error": f"Failed to parse the command: {e}"}), 400
 
         print(f"Parsed command: {parsed_command}")
-        api_response = activate_module(session_id, parsed_command, chat)
+        if parsed_command["module"] == "":
+            api_response = parsed_command["message"]
+            print(f"API response: {api_response}\n")
+            return jsonify({"response": api_response}), 200
+        else:
+            api_response = activate_module(session_id, parsed_command, chat)
+
         print(f"API response: {api_response}\n")
 
         # if "error" in api_response:
@@ -436,6 +456,7 @@ Now process the following command: "{raw_command}"
                 - **Output**: "Summary of note 'Project Meeting': Project updates discussed, deadlines confirmed."
             
             14. **Input**: {{ "status": "success", "message": "Reply sent to email ID 12345" }}
+                - **Output**: "Reply sent to email ID 12345."
             
              ---            
 
