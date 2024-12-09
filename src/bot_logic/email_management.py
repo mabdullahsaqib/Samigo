@@ -173,6 +173,8 @@ def email_voice_interaction(data):
     """
 
     creds = authenticate_gmail()
+    if "status" in creds:
+        return creds
     service = build('gmail', 'v1', credentials=creds)
 
     command = data.get("command", "")
@@ -203,3 +205,10 @@ def email_voice_interaction(data):
         response = {"error": "Command not recognized. Please try again."}
 
     return response
+#
+# if __name__ == "__main__":
+#     # Test email_voice_interaction function
+#     data = {
+#         "command": "fetch_emails"
+#     }
+#     print(email_voice_interaction(data))
