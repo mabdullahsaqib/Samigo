@@ -159,7 +159,7 @@ def execute_command():
             }}
             ```
         
-        5. **Command**: "Translate 'Hola, ¿cómo estás?' into English."
+        5. **Command**: "'Hola, ¿cómo estás?'"
             - **Parsed Output**:
             ```json
             {{

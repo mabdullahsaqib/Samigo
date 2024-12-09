@@ -24,7 +24,7 @@ def activate_module(session_id, data, chat):
     elif "note" in module or "record" in module or "write" in module:
         response = note_voice_interaction(data)
     elif "translation" in module or "translate" in module or "language" in module or "interpret" in module:
-        response = translation_voice_interaction()
+        response = translation_voice_interaction(data)
     elif "email" in module or "mail" in module or "inbox" in module:
         response = email_voice_interaction(data)
     elif "weather" in module or "news" in module or "headline" in module or "article" in module or "forecast" in module or "temperature" in module:
