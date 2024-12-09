@@ -21,33 +21,73 @@ genai.configure(api_key=GEMINI_API_KEY)
 model = genai.GenerativeModel("gemini-1.5-flash")
 
 
-def authenticate_gmail():
+def authenticate_gmail(command=None, payload=None):
     """
-    Authenticates and returns Gmail API service credentials.
+    Authenticates and returns Gmail API service credentials or handles authorization flow.
+
+    Parameters:
+    - command (str): The command input from the user, e.g., 'auth_code'.
+    - auth_code (str): The authorization code provided by the user.
+
+    Returns:
+    - dict: Response message or status based on the operation.
     """
     creds = None
     if os.path.exists(GMAIL_TOKEN_PATH):
         creds = Credentials.from_authorized_user_file(GMAIL_TOKEN_PATH, SCOPES)
+
+    if command == "auth_code":
+        auth_code = payload.get("auth_code", "")
+        try:
+            # Initialize flow to fetch token using provided auth_code
+            flow = InstalledAppFlow.from_client_config(
+                {"web": {
+                    "client_id": GMAIL_CLIENT_ID,
+                    "project_id": PROJECT_ID,
+                    "auth_uri": AUTH_URI,
+                    "token_uri": TOKEN_URI,
+                    "auth_provider_x509_cert_url": GMAIL_AUTH_PROVIDER_CERT,
+                    "client_secret": GMAIL_CLIENT_SECRET
+                }},
+                SCOPES
+            )
+            flow.redirect_uri = 'https://samigo.vercel.app/'
+            creds = flow.fetch_token(authorization_response=auth_code)
+
+            # Save credentials for future use
+            with open(GMAIL_TOKEN_PATH, 'w') as token:
+                token.write(creds.to_json())
+
+            return {"status": "success", "message": "Authentication successful."}
+
+        except Exception as e:
+            return {"status": "error", "message": str(e)}
+
     if not creds or not creds.valid:
         if creds and creds.expired and creds.refresh_token:
             creds.refresh(Request())
         else:
+            # Generate the authorization URL for the user to authenticate
             flow = InstalledAppFlow.from_client_config(
-                {"web":
-                    {
-                        "client_id": GMAIL_CLIENT_ID,
-                        "project_id": PROJECT_ID,
-                        "auth_uri": AUTH_URI,
-                        "token_uri": TOKEN_URI,
-                        "auth_provider_x509_cert_url": GMAIL_AUTH_PROVIDER_CERT,
-                        "client_secret": GMAIL_CLIENT_SECRET
-                    }
-                },
+                {"web": {
+                    "client_id": GMAIL_CLIENT_ID,
+                    "project_id": PROJECT_ID,
+                    "auth_uri": AUTH_URI,
+                    "token_uri": TOKEN_URI,
+                    "auth_provider_x509_cert_url": GMAIL_AUTH_PROVIDER_CERT,
+                    "client_secret": GMAIL_CLIENT_SECRET
+                }},
                 SCOPES
             )
-            creds = flow.run_local_server(port=0)
-        with open(GMAIL_TOKEN_PATH, 'w') as token:
-            token.write(creds.to_json())
+            flow.redirect_uri = 'https://samigo.vercel.app/'
+            authorization_url, state = flow.authorization_url(
+                access_type='offline',
+                include_granted_scopes='true',
+                prompt='consent'
+            )
+
+            return {"status": "authorization_required", "authorization_url": authorization_url}
+
     return creds
 
 
@@ -131,6 +171,7 @@ def email_voice_interaction(data):
     Handles email commands via voice interaction (from Flask).
     Returns a JSON response with relevant data.
     """
+
     creds = authenticate_gmail()
     service = build('gmail', 'v1', credentials=creds)
 
