@@ -6,7 +6,7 @@ from flask import Flask, request, jsonify
 from bot_logic.config import GEMINI_API_KEY
 from bot_logic.interaction_history import interaction_history
 from bot_logic.voice_interaction import activate_module
-from src.bot_logic.email_management import authenticate_gmail
+from bot_logic.email_management import authenticate_gmail
 
 # Initialize Flask app
 app = Flask(__name__)

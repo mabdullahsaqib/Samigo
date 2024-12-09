@@ -4,10 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="579bf43c-2a2d-4e5d-bf14-dac4706e0817" name="Changes" comment="failed credentials getting">
+    <list default="true" id="579bf43c-2a2d-4e5d-bf14-dac4706e0817" name="Changes" comment="auth code and auth flow">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/app.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/bot_logic/email_management.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/bot_logic/email_management.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -93,7 +92,8 @@
       <workItem from="1733674803110" duration="4633000" />
       <workItem from="1733680088044" duration="35000" />
       <workItem from="1733680157386" duration="31000" />
-      <workItem from="1733709284155" duration="1635000" />
+      <workItem from="1733709284155" duration="2116000" />
+      <workItem from="1733713737758" duration="18000" />
     </task>
     <task id="LOCAL-00001" summary="init commit">
       <option name="closed" value="true" />
@@ -127,7 +127,15 @@
       <option name="project" value="LOCAL" />
       <updated>1733678874446</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="auth code and auth flow">
+      <option name="closed" value="true" />
+      <created>1733712320379</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1733712320379</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -138,7 +146,8 @@
     <MESSAGE value="gitignore" />
     <MESSAGE value="update app.py" />
     <MESSAGE value="failed credentials getting" />
-    <option name="LAST_COMMIT_MESSAGE" value="failed credentials getting" />
+    <MESSAGE value="auth code and auth flow" />
+    <option name="LAST_COMMIT_MESSAGE" value="auth code and auth flow" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/Samigo$interaction_history.coverage" NAME="interaction_history Coverage Results" MODIFIED="1732981325188" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
