@@ -44,8 +44,8 @@ def execute_command():
     raw_command = data["command"].strip()
     print(f"Received command: {raw_command}")
 
-    if "auth_code" in raw_command:
-        return authenticate_gmail("auth_code", data)
+    if "auth_token" in raw_command:
+        return authenticate_gmail("auth_token", data)
 
     parsed_command_response = model.generate_content(f"""
     Extract the required information from the following command and return a dictionary. The dictionary keys should match the expected fields for the Samigo Bot API commands, and the values should be extracted or inferred from the command. If a value is missing in the command, leave it.

@@ -5,12 +5,10 @@ from email.mime.text import MIMEText
 import google.generativeai as genai  # Ensure Gemini API client is imported
 from google.auth.transport.requests import Request
 from google.oauth2.credentials import Credentials
-from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 
-from .config import GMAIL_TOKEN_PATH, GEMINI_API_KEY, GMAIL_CLIENT_ID, GMAIL_CLIENT_SECRET, GMAIL_AUTH_PROVIDER_CERT, \
-    TOKEN_URI, AUTH_URI, PROJECT_ID
+from .config import GMAIL_TOKEN_PATH, GEMINI_API_KEY
 
 # Define the Gmail API scope
 SCOPES = ['https://www.googleapis.com/auth/gmail.readonly',
@@ -26,69 +24,41 @@ def authenticate_gmail(command=None, payload=None):
     Authenticates and returns Gmail API service credentials or handles authorization flow.
 
     Parameters:
-    - command (str): The command input from the user, e.g., 'auth_code'.
-    - auth_code (str): The authorization code provided by the user.
+    - command (str): The command input from the user, e.g., 'auth_token'.
+    - payload (dict): Payload containing data like the token.
 
     Returns:
     - dict: Response message or status based on the operation.
     """
     creds = None
+
+    # Load existing credentials if available
     if os.path.exists(GMAIL_TOKEN_PATH):
         creds = Credentials.from_authorized_user_file(GMAIL_TOKEN_PATH, SCOPES)
 
-    if command == "auth_code":
-        auth_code = payload.get("auth_code", "")
-        try:
-            # Initialize flow to fetch token using provided auth_code
-            flow = InstalledAppFlow.from_client_config(
-                {"web": {
-                    "client_id": GMAIL_CLIENT_ID,
-                    "project_id": PROJECT_ID,
-                    "auth_uri": AUTH_URI,
-                    "token_uri": TOKEN_URI,
-                    "auth_provider_x509_cert_url": GMAIL_AUTH_PROVIDER_CERT,
-                    "client_secret": GMAIL_CLIENT_SECRET
-                }},
-                SCOPES
-            )
-            flow.redirect_uri = 'https://samigo.vercel.app/'
-            creds = flow.fetch_token(authorization_response=auth_code)
-
-            # Save credentials for future use
-            with open(GMAIL_TOKEN_PATH, 'w') as token:
-                token.write(creds.to_json())
-
-            return {"status": "success", "message": "Authentication successful."}
-
-        except Exception as e:
-            return {"status": "error", "message": str(e)}
-
+    # Refresh or request new credentials if invalid
     if not creds or not creds.valid:
         if creds and creds.expired and creds.refresh_token:
             creds.refresh(Request())
+        elif command == "auth_token" and payload and "token" in payload:
+            try:
+                # Save the token to the credentials file
+                token = payload["token"]
+                creds = Credentials.from_authorized_user_info({
+                    "token": token,
+                    "scopes": SCOPES,
+                })
+
+                with open(GMAIL_TOKEN_PATH, "w") as token_file:
+                    token_file.write(creds.to_json())
+
+                return {"status": "success", "message": "Token saved successfully."}
+            except Exception as e:
+                return {"status": "error", "message": f"Failed to save token: {e}"}
         else:
-            # Generate the authorization URL for the user to authenticate
-            flow = InstalledAppFlow.from_client_config(
-                {"web": {
-                    "client_id": GMAIL_CLIENT_ID,
-                    "project_id": PROJECT_ID,
-                    "auth_uri": AUTH_URI,
-                    "token_uri": TOKEN_URI,
-                    "auth_provider_x509_cert_url": GMAIL_AUTH_PROVIDER_CERT,
-                    "client_secret": GMAIL_CLIENT_SECRET
-                }},
-                SCOPES
-            )
-            flow.redirect_uri = 'https://samigo.vercel.app/'
-            authorization_url, state = flow.authorization_url(
-                access_type='offline',
-                include_granted_scopes='true',
-                prompt='consent'
-            )
+            return {"status": "error", "message": "No valid token available."}
 
-            return {"status": "authorization_required", "authorization_url": authorization_url}
-
-    return creds
+    return {"status": "success", "creds": creds}
 
 
 def fetch_emails(service, max_results=5):
