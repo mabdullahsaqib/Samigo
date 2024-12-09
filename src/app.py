@@ -339,7 +339,7 @@ Now process the following command: "{raw_command}"
         print(f"API response: {api_response}\n")
 
         if "status" in api_response:
-            return jsonify(api_response), 204
+            return jsonify(api_response), 200
 
         # if "error" in api_response:
         #    return jsonify({"error": "Invalid command"}), 400
