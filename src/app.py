@@ -32,6 +32,12 @@ model = genai.GenerativeModel(
     generation_config=generation_config,
 )
 
+# Function to get the bearer token from the request
+def get_bearer_token(request):
+    auth_header = request.headers.get('Authorization')
+    if auth_header and auth_header.startswith('Bearer '):
+        return auth_header[7:]  # Extract token
+    return None
 
 @app.route("/command", methods=['POST'])
 def execute_command():
@@ -44,8 +50,11 @@ def execute_command():
     raw_command = data["command"].strip()
     print(f"Received command: {raw_command}")
 
-    if "auth_token" in raw_command:
-        return authenticate_gmail("auth_token", data)
+    # Retrieve the Bearer token from the Authorization header
+    token = get_bearer_token(request)
+
+    if "auth_token" in raw_command and token:
+        return authenticate_gmail(token, data)
 
     parsed_command_response = model.generate_content(f"""
     Extract the required information from the following command and return a dictionary. The dictionary keys should match the expected fields for the Samigo Bot API commands, and the values should be extracted or inferred from the command. If a value is missing in the command, leave it.
