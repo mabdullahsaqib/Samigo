@@ -44,13 +44,6 @@ def execute_command():
     """Endpoint to execute user commands."""
     data = request.get_json()
 
-    print(f"Received data: {data}")
-
-    print(f"Request: {request}")
-
-    print(f"Request headers: {request.headers}")
-    print(f"Request data: {request.data}")
-
     if not data or "command" not in data:
         return jsonify({"error": "Command is required."}), 400
 
@@ -59,7 +52,6 @@ def execute_command():
 
     # Retrieve the Bearer token from the Authorization header
     token = get_bearer_token(request)
-    print(f"Received token: {token}")
 
     parsed_command_response = model.generate_content(f"""
     Extract the required information from the following command and return a dictionary. The dictionary keys should match the expected fields for the Samigo Bot API commands, and the values should be extracted or inferred from the command. If a value is missing in the command, leave it.
@@ -350,11 +342,10 @@ Now process the following command: "{raw_command}"
         else:
             try:
                 api_response = activate_module(session_id, parsed_command, chat, token)
-                print(f"API response: {api_response}\n")
             except Exception as e:
                 return jsonify({"error": f"Failed to execute the command: {e}"}), 404
 
-        # print(f"API response: {api_response}\n")
+        print(f"API response: {api_response}\n")
 
         if "status" in api_response:
             return jsonify(api_response), 200

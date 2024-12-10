@@ -51,7 +51,7 @@ def authenticate_gmail(token=None):
     creds = None
 
     # Check for access_token in payload to dynamically construct credentials
-    if "token":
+    if token:
         access_token = token
         creds_response = construct_gmail_credentials(
             access_token,
