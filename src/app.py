@@ -44,6 +44,8 @@ def execute_command():
     """Endpoint to execute user commands."""
     data = request.get_json()
 
+    print(f"Received data: {data}")
+
     if not data or "command" not in data:
         return jsonify({"error": "Command is required."}), 400
 
