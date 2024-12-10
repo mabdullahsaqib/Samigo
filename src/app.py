@@ -48,6 +48,9 @@ def execute_command():
 
     print(f"Request: {request}")
 
+    print(f"Request headers: {request.headers}")
+    print(f"Request data: {request.data}")
+
     if not data or "command" not in data:
         return jsonify({"error": "Command is required."}), 400
 
@@ -56,6 +59,7 @@ def execute_command():
 
     # Retrieve the Bearer token from the Authorization header
     token = get_bearer_token(request)
+    print(f"Received token: {token}")
 
     parsed_command_response = model.generate_content(f"""
     Extract the required information from the following command and return a dictionary. The dictionary keys should match the expected fields for the Samigo Bot API commands, and the values should be extracted or inferred from the command. If a value is missing in the command, leave it.
