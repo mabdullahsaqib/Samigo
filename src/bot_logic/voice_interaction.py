@@ -8,7 +8,7 @@ from .weather_and_news import weather_and_news_voice_interaction
 from .web_browsing import web_browsing_voice_interaction
 
 
-def activate_module(session_id, data, chat, token = None):
+def activate_module(session_id, data, chat, token=None):
     """
     Activate the appropriate module based on the user's data and return the response.
     """

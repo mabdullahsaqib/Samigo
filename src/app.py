@@ -6,7 +6,6 @@ from flask import Flask, request, jsonify
 from bot_logic.config import GEMINI_API_KEY
 from bot_logic.interaction_history import interaction_history
 from bot_logic.voice_interaction import activate_module
-from bot_logic.email_management import authenticate_gmail
 
 # Initialize Flask app
 app = Flask(__name__)
@@ -32,12 +31,14 @@ model = genai.GenerativeModel(
     generation_config=generation_config,
 )
 
+
 # Function to get the bearer token from the request
 def get_bearer_token(request):
     auth_header = request.headers.get('Authorization')
     if auth_header and auth_header.startswith('Bearer '):
         return auth_header[7:]  # Extract token
     return None
+
 
 @app.route("/command", methods=['POST'])
 def execute_command():
@@ -323,9 +324,6 @@ Now process the following command: "{raw_command}"
                                                      )
 
     try:
-        # Generate the content from GeminiF
-        print(f"Raw response from Gemini: {parsed_command_response.text}")
-
         # Clean and parse the JSON
         parsed_command_text = parsed_command_response.text.strip("```").strip("json").strip("\n").strip("```").strip()
 
@@ -345,14 +343,9 @@ Now process the following command: "{raw_command}"
             except Exception as e:
                 return jsonify({"error": f"Failed to execute the command: {e}"}), 404
 
-        print(f"API response: {api_response}\n")
-
         if "status" in api_response:
             return jsonify(api_response), 200
 
-        # if "error" in api_response:
-        #    return jsonify({"error": "Invalid command"}), 400
-        # else:
         natural_response = model.generate_content(f"""
             You are a natural language processing model tasked with converting structured data output into natural language responses. Your goal is to generate user-friendly, conversational outputs that explain the results of various actions performed on different modules. 
             
@@ -484,7 +477,6 @@ Now process the following command: "{raw_command}"
         """)
 
         natural_response_text = natural_response.text.strip()
-        print(f"Natural language response: {natural_response_text}")
 
         return jsonify({"response": natural_response_text}), 200
     except Exception as e:

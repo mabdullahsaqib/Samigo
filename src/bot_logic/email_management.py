@@ -11,7 +11,6 @@ from googleapiclient.errors import HttpError
 
 from .config import GEMINI_API_KEY, GMAIL_CLIENT_SECRET, GMAIL_CLIENT_ID
 
-
 # Define the Gmail API scope
 SCOPES = ['https://www.googleapis.com/auth/gmail.readonly',
           'https://www.googleapis.com/auth/gmail.send']
