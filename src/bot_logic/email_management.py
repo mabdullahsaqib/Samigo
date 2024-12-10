@@ -44,15 +44,15 @@ def construct_gmail_credentials(access_token, client_id, client_secret, scopes):
     return {"status": "error", "message": "Invalid access token."}
 
 
-def authenticate_gmail(command=None, payload=None):
+def authenticate_gmail(token = None):
     """
     Authenticates and returns Gmail API service credentials.
     """
     creds = None
 
     # Check for access_token in payload to dynamically construct credentials
-    if command == "auth_token" and payload and "token" in payload:
-        access_token = payload["token"]
+    if "token":
+        access_token = token
         creds_response = construct_gmail_credentials(
             access_token,
             client_id=GMAIL_CLIENT_ID,
@@ -64,10 +64,6 @@ def authenticate_gmail(command=None, payload=None):
         else:
             return creds_response
 
-    # Load existing credentials if no access_token is provided
-    elif os.path.exists(GMAIL_TOKEN_PATH):
-        creds = Credentials.from_authorized_user_file(GMAIL_TOKEN_PATH, SCOPES)
-
     # Refresh or request new credentials if invalid
     if creds and not creds.valid and creds.refresh_token:
         creds.refresh(Request())
@@ -75,7 +71,7 @@ def authenticate_gmail(command=None, payload=None):
     if not creds or not creds.valid:
         return {"status": "auth_required", "message": "Valid credentials are required."}
 
-    return {"status": "success", "creds": creds}
+    return creds
 
 
 def fetch_emails(service, max_results=5):
@@ -153,15 +149,16 @@ def send_email_with_generated_response(service, email_id):
         return {"error": str(error)}
 
 
-def email_voice_interaction(data):
+def email_voice_interaction(data, token=None):
     """
     Handles email commands via voice interaction (from Flask).
     Returns a JSON response with relevant data.
     """
 
-    creds = authenticate_gmail()
-    if "status" in creds:
+    creds = authenticate_gmail(token)
+    if not creds or creds.get("status") == "auth_required":
         return creds
+
     service = build('gmail', 'v1', credentials=creds)
 
     command = data.get("command", "")

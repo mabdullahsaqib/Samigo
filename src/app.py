@@ -53,9 +53,6 @@ def execute_command():
     # Retrieve the Bearer token from the Authorization header
     token = get_bearer_token(request)
 
-    if "auth_token" in raw_command and token:
-        return authenticate_gmail(token, data)
-
     parsed_command_response = model.generate_content(f"""
     Extract the required information from the following command and return a dictionary. The dictionary keys should match the expected fields for the Samigo Bot API commands, and the values should be extracted or inferred from the command. If a value is missing in the command, leave it.
     Look out for any grammatical errors in the raw command and assume the correct word.
@@ -343,7 +340,7 @@ Now process the following command: "{raw_command}"
             print(f"API response: {api_response}\n")
             return jsonify({"response": api_response}), 200
         else:
-            api_response = activate_module(session_id, parsed_command, chat)
+            api_response = activate_module(session_id, parsed_command, chat, token)
 
         print(f"API response: {api_response}\n")
 

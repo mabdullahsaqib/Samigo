@@ -8,7 +8,7 @@ from .weather_and_news import weather_and_news_voice_interaction
 from .web_browsing import web_browsing_voice_interaction
 
 
-def activate_module(session_id, data, chat):
+def activate_module(session_id, data, chat, token = None):
     """
     Activate the appropriate module based on the user's data and return the response.
     """
@@ -26,7 +26,7 @@ def activate_module(session_id, data, chat):
     elif "translation" in module or "translate" in module or "language" in module or "interpret" in module:
         response = translation_voice_interaction(data)
     elif "email" in module or "mail" in module or "inbox" in module:
-        response = email_voice_interaction(data)
+        response = email_voice_interaction(data, token)
     elif "weather" in module or "news" in module or "headline" in module or "article" in module or "forecast" in module or "temperature" in module:
         response = weather_and_news_voice_interaction(data)
 
