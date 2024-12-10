@@ -46,6 +46,8 @@ def execute_command():
 
     print(f"Received data: {data}")
 
+    print(f"Request: {request}")
+
     if not data or "command" not in data:
         return jsonify({"error": "Command is required."}), 400
 
