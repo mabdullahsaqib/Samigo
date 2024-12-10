@@ -44,13 +44,9 @@ def authenticate_gmail(command=None, payload=None):
             try:
                 # Save the token to the credentials file
                 token = payload["token"]
-                creds = Credentials.from_authorized_user_info({
-                    "token": token,
-                    "scopes": SCOPES,
-                })
 
                 with open(GMAIL_TOKEN_PATH, "w") as token_file:
-                    token_file.write(creds.to_json())
+                    token_file.write(token.to_json())
 
                 return {"status": "success", "message": "Token saved successfully."}
             except Exception as e:

@@ -91,7 +91,7 @@ def task_voice_interaction(data):
 
     elif "upcoming" in command:
         deadline_input = payload.get("deadline")
-        if deadline_input == "":
+        if deadline_input == None:
             deadline_input = "tomorrow"
         deadline_date = dateparser.parse(deadline_input) if deadline_input else None
         return get_upcoming_tasks(deadline_date)
