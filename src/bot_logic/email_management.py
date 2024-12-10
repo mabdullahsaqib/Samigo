@@ -1,5 +1,6 @@
 import base64
 import datetime
+import logging
 from email.mime.text import MIMEText
 
 import google.generativeai as genai  # Ensure Gemini API client is imported
@@ -10,6 +11,8 @@ from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 
 from .config import GEMINI_API_KEY, GMAIL_CLIENT_SECRET, GMAIL_CLIENT_ID
+
+logging.getLogger('googleapicliet.discovery_cache').setLevel(logging.ERROR)
 
 # Define the Gmail API scope
 SCOPES = ['https://www.googleapis.com/auth/gmail.readonly',
