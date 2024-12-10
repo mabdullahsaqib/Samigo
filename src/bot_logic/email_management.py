@@ -1,16 +1,15 @@
 import base64
-import os.path
+import datetime
 from email.mime.text import MIMEText
 
 import google.generativeai as genai  # Ensure Gemini API client is imported
+import requests
 from google.auth.transport.requests import Request
 from google.oauth2.credentials import Credentials
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
-import requests
-import datetime
 
-from .config import GMAIL_TOKEN_PATH, GEMINI_API_KEY, GMAIL_CLIENT_SECRET, GMAIL_CLIENT_ID, GMAIL_REDIRECT_URI
+from .config import GEMINI_API_KEY, GMAIL_CLIENT_SECRET, GMAIL_CLIENT_ID
 
 # Define the Gmail API scope
 SCOPES = ['https://www.googleapis.com/auth/gmail.readonly',
@@ -44,7 +43,7 @@ def construct_gmail_credentials(access_token, client_id, client_secret, scopes):
     return {"status": "error", "message": "Invalid access token."}
 
 
-def authenticate_gmail(token = None):
+def authenticate_gmail(token=None):
     """
     Authenticates and returns Gmail API service credentials.
     """
@@ -69,7 +68,7 @@ def authenticate_gmail(token = None):
         creds.refresh(Request())
 
     if not creds or not creds.valid:
-        return {"status": "auth_required", "message": "Valid credentials are required."}
+        return "auth_required"
 
     return creds
 
@@ -156,8 +155,8 @@ def email_voice_interaction(data, token=None):
     """
 
     creds = authenticate_gmail(token)
-    if not creds or creds.get("status") == "auth_required":
-        return creds
+    if creds == "auth_required":
+        return {"status": "auth_required"}
 
     service = build('gmail', 'v1', credentials=creds)
 
@@ -189,10 +188,10 @@ def email_voice_interaction(data, token=None):
         response = {"error": "Command not recognized. Please try again."}
 
     return response
-#
+
 # if __name__ == "__main__":
 #     # Test email_voice_interaction function
 #     data = {
 #         "command": "fetch_emails"
 #     }
-#     print(email_voice_interaction(data))
+#     print(email_voice_interaction(data, " " ))
