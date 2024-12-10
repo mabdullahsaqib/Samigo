@@ -342,10 +342,11 @@ Now process the following command: "{raw_command}"
         else:
             try:
                 api_response = activate_module(session_id, parsed_command, chat, token)
+                print(f"API response: {api_response}\n")
             except Exception as e:
-                return jsonify({"error": f"Failed to execute the command: {e}"}), 400
+                return jsonify({"error": f"Failed to execute the command: {e}"}), 404
 
-        print(f"API response: {api_response}\n")
+        # print(f"API response: {api_response}\n")
 
         if "status" in api_response:
             return jsonify(api_response), 200
