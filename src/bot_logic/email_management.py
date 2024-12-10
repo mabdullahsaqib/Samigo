@@ -7,8 +7,10 @@ from google.auth.transport.requests import Request
 from google.oauth2.credentials import Credentials
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
+import requests
+import datetime
 
-from .config import GMAIL_TOKEN_PATH, GEMINI_API_KEY
+from .config import GMAIL_TOKEN_PATH, GEMINI_API_KEY, GMAIL_CLIENT_SECRET, GMAIL_CLIENT_ID, GMAIL_REDIRECT_URI
 
 # Define the Gmail API scope
 SCOPES = ['https://www.googleapis.com/auth/gmail.readonly',
@@ -19,40 +21,59 @@ genai.configure(api_key=GEMINI_API_KEY)
 model = genai.GenerativeModel("gemini-1.5-flash")
 
 
+def construct_gmail_credentials(access_token, client_id, client_secret, scopes):
+    """
+    Constructs a full Gmail API credentials object using the access token and additional values.
+    """
+    token_info_url = f"https://oauth2.googleapis.com/tokeninfo?access_token={access_token}"
+    response = requests.get(token_info_url)
+
+    if response.status_code == 200:
+        token_info = response.json()
+        creds = Credentials(
+            token=access_token,
+            refresh_token=None,
+            token_uri="https://oauth2.googleapis.com/token",
+            client_id=client_id,
+            client_secret=client_secret,
+            scopes=scopes,
+        )
+        creds.expiry = datetime.datetime.fromtimestamp(int(token_info["exp"]))
+        return {"status": "success", "creds": creds}
+
+    return {"status": "error", "message": "Invalid access token."}
+
+
 def authenticate_gmail(command=None, payload=None):
     """
-    Authenticates and returns Gmail API service credentials or handles authorization flow.
-
-    Parameters:
-    - command (str): The command input from the user, e.g., 'auth_token'.
-    - payload (dict): Payload containing data like the token.
-
-    Returns:
-    - dict: Response message or status based on the operation.
+    Authenticates and returns Gmail API service credentials.
     """
     creds = None
 
-    # Load existing credentials if available
-    if os.path.exists(GMAIL_TOKEN_PATH):
+    # Check for access_token in payload to dynamically construct credentials
+    if command == "auth_token" and payload and "token" in payload:
+        access_token = payload["token"]
+        creds_response = construct_gmail_credentials(
+            access_token,
+            client_id=GMAIL_CLIENT_ID,
+            client_secret=GMAIL_CLIENT_SECRET,
+            scopes=SCOPES,
+        )
+        if creds_response["status"] == "success":
+            creds = creds_response["creds"]
+        else:
+            return creds_response
+
+    # Load existing credentials if no access_token is provided
+    elif os.path.exists(GMAIL_TOKEN_PATH):
         creds = Credentials.from_authorized_user_file(GMAIL_TOKEN_PATH, SCOPES)
 
     # Refresh or request new credentials if invalid
+    if creds and not creds.valid and creds.refresh_token:
+        creds.refresh(Request())
+
     if not creds or not creds.valid:
-        if creds and creds.expired and creds.refresh_token:
-            creds.refresh(Request())
-        elif command == "auth_token" and payload and "token" in payload:
-            try:
-                # Save the token to the credentials file
-                token = payload["token"]
-
-                with open(GMAIL_TOKEN_PATH, "w") as token_file:
-                    token_file.write(token.to_json())
-
-                return {"status": "success", "message": "Token saved successfully."}
-            except Exception as e:
-                return {"status": "error", "message": f"Failed to save token: {e}"}
-        else:
-            return {"status": "auth_required", "message": "No valid token available."}
+        return {"status": "auth_required", "message": "Valid credentials are required."}
 
     return {"status": "success", "creds": creds}
 
