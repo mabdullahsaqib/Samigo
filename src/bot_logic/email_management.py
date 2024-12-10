@@ -56,7 +56,7 @@ def authenticate_gmail(command=None, payload=None):
             except Exception as e:
                 return {"status": "error", "message": f"Failed to save token: {e}"}
         else:
-            return {"status": "error", "message": "No valid token available."}
+            return {"status": "auth_required", "message": "No valid token available."}
 
     return {"status": "success", "creds": creds}
 
