@@ -2,6 +2,7 @@ from datetime import datetime
 
 import dateparser
 import google.generativeai as genai
+from google.cloud.firestore_v1.base_query import FieldFilter
 
 from .config import GEMINI_API_KEY
 from .firebase_initializer import db
@@ -44,19 +45,20 @@ def add_task_from_input(task_description, deadline):
 
 
 def get_tasks_by_priority(priority):
-    tasks = db.collection("tasks").where("priority", "==", priority).stream()
+    tasks = db.collection("tasks").where(filter=FieldFilter("priority", "==", priority)).stream()
     task_list = [task.to_dict() for task in tasks]
     return task_list
 
 
 def get_tasks_by_category(category):
-    tasks = db.collection("tasks").where("category", "==", category).stream()
+    tasks = db.collection("tasks").where(filter=FieldFilter("category", "==", category)).stream()
     task_list = [task.to_dict() for task in tasks]
     return task_list
 
 
 def get_upcoming_tasks(deadline_date):
-    tasks = db.collection("tasks").where("deadline", "<=", deadline_date).order_by("deadline").stream()
+    tasks = db.collection("tasks").where(filter=FieldFilter("deadline", "<=", deadline_date)).order_by(
+        "deadline").stream()
     return [task.to_dict() for task in tasks]
 
 
