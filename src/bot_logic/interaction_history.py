@@ -61,11 +61,9 @@ def save_to_chat(session_id: int, command: str, response: str):
 
 
 # Main Interaction Function
-def handle_user_command(session_id: int, command: str, chat):
-    response = chat.send_message(command)
-    save_to_chat(session_id, command, response.text)
-    # print(f"Aura: {response.text}")
-    return response.text
+def handle_user_command(session_id: int, command: str, response ,chat):
+    save_to_chat(session_id, command, response)
+    return response
 
 
 def interaction_history():

@@ -4,7 +4,7 @@ import google.generativeai as genai
 from flask import Flask, request, jsonify
 
 from bot_logic.config import GEMINI_API_KEY
-from bot_logic.interaction_history import interaction_history
+from bot_logic.interaction_history import interaction_history, handle_user_command
 from bot_logic.voice_interaction import activate_module
 
 # Initialize Flask app
@@ -333,11 +333,12 @@ Now process the following command: "{raw_command}"
         print(f"Parsed command: {parsed_command}")
         if parsed_command["module"] == "":
             api_response = parsed_command["message"]
-            print(f"API response: {api_response}\n")
+            handle_user_command(session_id, raw_command,api_response, chat)
             return jsonify({"response": api_response}), 200
         else:
             try:
-                api_response = activate_module(session_id, parsed_command, chat, token)
+                api_response = activate_module(parsed_command, token)
+                handle_user_command(session_id, raw_command,api_response, chat)
             except Exception as e:
                 return jsonify({"error": f"Failed to execute the command: {e}"}), 404
 
