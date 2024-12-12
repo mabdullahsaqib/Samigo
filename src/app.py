@@ -320,7 +320,6 @@ Only provide the dictionary in the response. nothing more, nothing less. Don't e
 
 Now process the following command: "{raw_command}"
 """
-
                                                      )
 
     try:
