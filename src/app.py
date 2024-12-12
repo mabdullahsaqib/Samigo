@@ -54,7 +54,7 @@ def execute_command():
 
     parsed_command_response = model.generate_content(f"""
     Extract the required information from the following command and return a dictionary. The dictionary keys should match the expected fields for the Samigo Bot API commands, and the values should be extracted or inferred from the command. If a value is missing in the command, leave it.
-    Look out for any grammatical errors in the raw command and assume the correct word.
+    Look out for any grammatical errors in the raw command and assume the correct word. If you don't understand the language send it over to the translate module.
     
         Here are the modules and their expected data inputs:
         

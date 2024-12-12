@@ -188,10 +188,3 @@ def email_voice_interaction(data, token=None):
         response = {"error": "Command not recognized. Please try again."}
 
     return response
-
-# if __name__ == "__main__":
-#     # Test email_voice_interaction function
-#     data = {
-#         "command": "fetch_emails"
-#     }
-#     print(email_voice_interaction(data, " " ))

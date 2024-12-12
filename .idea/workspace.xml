@@ -5,10 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="579bf43c-2a2d-4e5d-bf14-dac4706e0817" name="Changes" comment="removed changes and added new gemini 2.0 model integration">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/app.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/bot_logic/email_management.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/bot_logic/email_management.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/bot_logic/interaction_history.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/bot_logic/interaction_history.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/bot_logic/voice_interaction.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/bot_logic/voice_interaction.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/bot_logic/test.py" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -113,6 +113,7 @@
       <workItem from="1733842476876" duration="2918000" />
       <workItem from="1733845825451" duration="256000" />
       <workItem from="1733990903795" duration="8333000" />
+      <workItem from="1734007049735" duration="134000" />
     </task>
     <task id="LOCAL-00001" summary="init commit">
       <option name="closed" value="true" />
