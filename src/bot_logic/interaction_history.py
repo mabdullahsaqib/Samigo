@@ -40,7 +40,7 @@ def get_last_session_history():
         for message in messages:
             if "command" in message and "response" in message:
                 history.append({"role": "user", "parts": message["command"]})
-                history.append({"role": "model", "parts": message["response"]})
+                history.append({"role": "model", "parts":  message["response"] if not(isinstance(message["response"], list)) else "returned dictionary of notes or tasks" })
 
     return history
 
